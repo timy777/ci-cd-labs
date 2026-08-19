@@ -10,25 +10,31 @@ on:
 
 jobs:
   build-and-test:
-    name: Build, Test and Coverage
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: Configurar JDK 17
+      - name: Configurar JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
 
       - name: Dar permisos de ejecución al Maven Wrapper
-        run: chmod +x mvnw
+        run: |
+          if [ -f ./mvnw ]; then chmod +x ./mvnw; fi
 
       - name: Compilar y ejecutar pruebas unitarias
-        run: ./mvnw clean test
+        run: |
+          if [ -f ./mvnw ]; then
+            ./mvnw clean test
+          else
+            mvn clean test
+          fi
 
       - name: Publicar reporte de pruebas Surefire
         uses: actions/upload-artifact@v4
