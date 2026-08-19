@@ -33,11 +33,5 @@ jobs:
       - name: Mostrar versión de Git
         run: git --version
 
-      # ==========================================
-      # PASO QUE PROVOCA EL ERROR REAL:
-      # ==========================================
-      - name: Validar dependencias inexistentes
-        run: comando_inexistente_que_falla
-
       - name: Finalizar pipeline
         run: echo "Pipeline ejecutado correctamente."
